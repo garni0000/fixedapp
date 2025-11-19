@@ -55,6 +55,7 @@ Copy `.env.example` to `.env` and provide real values.
 - `npm run start` – run compiled server
 - `npm run prisma:migrate` – run migrations locally
 - `npm run seed` – seed database (creates initial admin)
+- `npm run promote-admin -- user@example.com` – promote an existing user to ADMIN
 - `npm test` – run unit tests (Vitest)
 
 ## Render Deployment
@@ -66,7 +67,7 @@ Use the included `render.yaml`. Render will:
 3. Build TypeScript
 4. Start with `npm run start`
 
-Set environment variables in the Render dashboard (see `.env.example`).
+Set environment variables in the Render dashboard (see `.env.example`). Use `ADMIN_EMAILS` to force specific addresses into the `ADMIN` role automatically after login.
 
 ## API Overview
 

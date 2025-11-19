@@ -1,4 +1,4 @@
-import { Prisma, User } from '@prisma/client';
+import { Prisma, Role, User } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import { nanoid } from 'nanoid';
 import prisma from '../config/db';
@@ -11,6 +11,7 @@ import {
   verifyRefreshToken
 } from '../utils/jwt';
 import { sendPasswordResetEmail } from '../utils/email';
+import env from '../config/env';
 
 interface RegisterInput {
   email: string;
@@ -27,6 +28,20 @@ interface LoginInput {
 const sanitizeUser = (user: User) => {
   const { passwordHash, ...safeUser } = user;
   return safeUser;
+};
+
+const adminEmails = env.ADMIN_EMAILS
+  ? env.ADMIN_EMAILS.split(',').map((email) => email.trim().toLowerCase()).filter(Boolean)
+  : [];
+
+const ensureAdminRole = async (user: User) => {
+  if (adminEmails.includes(user.email.toLowerCase()) && user.role !== Role.ADMIN) {
+    return prisma.user.update({
+      where: { id: user.id },
+      data: { role: Role.ADMIN }
+    });
+  }
+  return user;
 };
 
 const generateReferralCode = async () => {
@@ -92,16 +107,17 @@ export const register = async (input: RegisterInput) => {
     return createdUser;
   });
 
-  const tokens = createTokens(user);
+  const ensuredUser = await ensureAdminRole(user);
+  const tokens = createTokens(ensuredUser);
 
   return {
-    user: sanitizeUser(user),
+    user: sanitizeUser(ensuredUser),
     ...tokens
   };
 };
 
 export const login = async (input: LoginInput) => {
-  const user = await prisma.user.findUnique({ where: { email: input.email.toLowerCase() } });
+  let user = await prisma.user.findUnique({ where: { email: input.email.toLowerCase() } });
   if (!user) {
     throw new AppError('Invalid credentials', 401);
   }
@@ -111,6 +127,7 @@ export const login = async (input: LoginInput) => {
     throw new AppError('Invalid credentials', 401);
   }
 
+  user = await ensureAdminRole(user);
   const tokens = createTokens(user);
 
   return {
@@ -125,9 +142,10 @@ export const refresh = async (token: string) => {
   if (!user) {
     throw new AppError('User not found', 404);
   }
-  const tokens = createTokens(user);
+  const ensuredUser = await ensureAdminRole(user);
+  const tokens = createTokens(ensuredUser);
   return {
-    user: sanitizeUser(user),
+    user: sanitizeUser(ensuredUser),
     ...tokens
   };
 };

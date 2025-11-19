@@ -14,7 +14,8 @@ const envSchema = z.object({
   SMTP_PASS: z.string().min(1, 'SMTP_PASS is required'),
   APP_URL: z.string().min(1, 'APP_URL is required'),
   EMAIL_FROM: z.string().min(1, 'EMAIL_FROM is required'),
-  REFERRAL_COMMISSION_RATE: z.coerce.number().min(0).max(1).default(0.3)
+  REFERRAL_COMMISSION_RATE: z.coerce.number().min(0).max(1).default(0.3),
+  ADMIN_EMAILS: z.string().optional()
 });
 
 const env = envSchema.parse({
@@ -28,7 +29,8 @@ const env = envSchema.parse({
   SMTP_PASS: process.env.SMTP_PASS ?? 'pass',
   APP_URL: process.env.APP_URL ?? 'http://localhost:5173',
   EMAIL_FROM: process.env.EMAIL_FROM ?? 'no-reply@fixedpronos.com',
-  REFERRAL_COMMISSION_RATE: process.env.REFERRAL_COMMISSION_RATE
+  REFERRAL_COMMISSION_RATE: process.env.REFERRAL_COMMISSION_RATE,
+  ADMIN_EMAILS: process.env.ADMIN_EMAILS
 });
 
 export default env;

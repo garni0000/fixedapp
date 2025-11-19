@@ -11,6 +11,7 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
     "seed": "ts-node prisma/seed.ts",
+    "promote-admin": "ts-node scripts/promoteAdmin.ts",
     "test": "vitest run"
   },
   "engines": {
