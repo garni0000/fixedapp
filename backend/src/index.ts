@@ -17,8 +17,21 @@ import { AppError } from './utils/errors';
 
 const app = express();
 
-const allowedOrigins = env.APP_URL.split(',').map((origin) => origin.trim());
-const allowAllOrigins = allowedOrigins.includes('*');
+const normalizeOrigin = (value?: string | null) => {
+  if (!value) return null;
+  try {
+    return value.trim().replace(/\/$/, '').toLowerCase();
+  } catch {
+    return value;
+  }
+};
+
+const allowedOriginsRaw = env.APP_URL.split(',').map((origin) => origin.trim()).filter(Boolean);
+const normalizedAllowedOrigins = allowedOriginsRaw
+  .map((origin) => normalizeOrigin(origin))
+  .filter((origin): origin is string => Boolean(origin));
+const allowAllOrigins = normalizedAllowedOrigins.includes('*');
+const allowedOriginsSet = new Set(normalizedAllowedOrigins);
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true }));
 
@@ -26,9 +39,11 @@ app.use(helmet());
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowAllOrigins || allowedOrigins.includes(origin)) {
+      const normalizedOrigin = normalizeOrigin(origin);
+      if (!origin || allowAllOrigins || (normalizedOrigin && allowedOriginsSet.has(normalizedOrigin))) {
         callback(null, true);
       } else {
+        logger.warn({ origin, allowedOrigins: allowedOriginsRaw }, 'Not allowed by CORS');
         callback(new Error('Not allowed by CORS'));
       }
     },
