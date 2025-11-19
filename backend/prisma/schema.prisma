@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id                String        @id @default(cuid())
+  email             String        @unique
+  passwordHash      String
+  name              String
+  role              Role          @default(USER)
+  referralCode      String        @unique
+  referredById      String?
+  referredBy        User?         @relation("UserReferral", fields: [referredById], references: [id])
+  referrals         Referral[]    @relation("Referrer")
+  balanceCommission Decimal       @default(0)
+  subscriptions     Subscription[]
+  transactions      Transaction[]
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+}
+
+model Subscription {
+  id                 String   @id @default(cuid())
+  userId             String
+  plan               String
+  reference          String   @unique
+  status             String
+  currentPeriodStart DateTime
+  currentPeriodEnd   DateTime
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model Prono {
+  id          String   @id @default(cuid())
+  title       String
+  sport       String
+  competition String
+  matchTime   DateTime
+  tip         String
+  odd         Decimal
+  confidence  Int
+  content     String
+  result      String   @default("pending")
+  status      String   @default("draft")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Transaction {
+  id         String   @id @default(cuid())
+  userId     String
+  type       String
+  amount     Decimal
+  currency   String   @default("eur")
+  provider   String
+  providerId String?
+  status     String   @default("pending")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([type])
+}
+
+model Referral {
+  id               String   @id @default(cuid())
+  referrerId       String
+  refereeId        String   @unique
+  commissionAmount Decimal  @default(0)
+  paid             Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  referrer User @relation("Referrer", fields: [referrerId], references: [id])
+  referee  User @relation("UserReferral", fields: [refereeId], references: [id])
+
+  @@index([referrerId])
+}
+

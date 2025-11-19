@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: fixedpronos-backend
+    env: node
+    plan: starter
+    buildCommand: "npm install && npx prisma migrate deploy && npm run build"
+    startCommand: "npm run start"
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: REFRESH_SECRET
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: EMAIL_FROM
+        sync: false
+      - key: APP_URL
+        sync: false
+      - key: REFERRAL_COMMISSION_RATE
+        sync: false
+
