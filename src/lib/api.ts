@@ -1,9 +1,29 @@
+const DEFAULT_API_BASE = 'http://localhost:4000';
+
 const normalizeBaseUrl = (value?: string) => {
-  if (!value) return 'http://localhost:4000';
+  if (!value) return DEFAULT_API_BASE;
   return value.endsWith('/') ? value.slice(0, -1) : value;
 };
 
-const API_BASE_URL = normalizeBaseUrl(import.meta.env.VITE_API_URL);
+const rawBaseUrl = import.meta.env.VITE_API_URL;
+const normalizedBaseUrl = normalizeBaseUrl(rawBaseUrl);
+
+if (typeof window !== 'undefined') {
+  const currentOrigin = window.location.origin;
+  if (!rawBaseUrl) {
+    console.warn(
+      '[API] VITE_API_URL is not defined. Falling back to default http://localhost:4000. ' +
+        'Set VITE_API_URL to your Render backend URL in production.',
+    );
+  } else if (normalizedBaseUrl === currentOrigin) {
+    console.warn(
+      `[API] VITE_API_URL (${rawBaseUrl}) points to the frontend origin (${currentOrigin}). ` +
+        'Requests will fail. Set VITE_API_URL to your backend API domain.',
+    );
+  }
+}
+
+const API_BASE_URL = normalizedBaseUrl;
 
 const getAuthToken = () => localStorage.getItem('auth_token');
 

@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useCallback } from 'react';
 import { addDays, format } from 'date-fns';
 import { Loader2, Plus, RefreshCcw, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -59,6 +60,7 @@ const initialSubscriptionForm = () => {
 };
 
 export default function Admin() {
+  const navigate = useNavigate();
   const [stats, setStats] = useState<AdminStats | null>(null);
   const [users, setUsers] = useState<AdminUserSummary[]>([]);
   const [subscriptions, setSubscriptions] = useState<AdminSubscription[]>([]);
@@ -66,13 +68,15 @@ export default function Admin() {
   const [pronos, setPronos] = useState<Prono[]>([]);
 
   const [loading, setLoading] = useState(true);
+  const [authChecked, setAuthChecked] = useState(false);
+  const [authorized, setAuthorized] = useState(false);
   const [savingProno, setSavingProno] = useState(false);
   const [savingSubscription, setSavingSubscription] = useState(false);
 
   const [pronoForm, setPronoForm] = useState(initialPronoForm);
   const [subscriptionForm, setSubscriptionForm] = useState(initialSubscriptionForm);
 
-  const loadPronos = async () => {
+  const loadPronos = useCallback(async () => {
     const [today, yesterday, beforeYesterday] = await Promise.all([
       apiClient.get('/pronos/today'),
       apiClient.get('/pronos/yesterday'),
@@ -88,9 +92,9 @@ export default function Admin() {
       (a, b) => new Date(b.matchTime).getTime() - new Date(a.matchTime).getTime(),
     );
     setPronos(ordered);
-  };
+  }, []);
 
-  const loadAdminData = async () => {
+  const loadAdminData = useCallback(async () => {
     setLoading(true);
     try {
       const [statsData, usersData, subsData, txData] = await Promise.all([
@@ -112,11 +116,29 @@ export default function Admin() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [loadPronos]);
 
   useEffect(() => {
-    loadAdminData();
-  }, []);
+    const verifyAdmin = async () => {
+      try {
+        const profile = await apiClient.get('/user/me');
+        if (!profile?.user || profile.user.role !== 'ADMIN') {
+          toast.error('Accès réservé aux administrateurs');
+          navigate('/fixed');
+          return;
+        }
+        setAuthorized(true);
+        await loadAdminData();
+      } catch (error) {
+        toast.error('Session expirée ou accès refusé');
+        navigate('/auth');
+      } finally {
+        setAuthChecked(true);
+      }
+    };
+
+    verifyAdmin();
+  }, [loadAdminData, navigate]);
 
   const handleCreateProno = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -212,12 +234,16 @@ export default function Admin() {
 
   const latestTransactions = useMemo(() => transactions.slice(0, 5), [transactions]);
 
-  if (loading) {
+  if (!authChecked || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
+  }
+
+  if (!authorized) {
+    return null;
   }
 
   return (
