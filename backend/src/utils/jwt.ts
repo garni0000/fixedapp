@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { Secret, SignOptions } from 'jsonwebtoken';
 import env from '../config/env';
 import { AppError } from './errors';
 
@@ -7,7 +7,7 @@ export interface TokenPayload {
   role: string;
 }
 
-const signToken = (payload: TokenPayload, secret: string, expiresIn: string) =>
+const signToken = (payload: TokenPayload, secret: Secret, expiresIn: SignOptions['expiresIn']) =>
   jwt.sign(payload, secret, { expiresIn });
 
 export const signAccessToken = (payload: TokenPayload) => signToken(payload, env.JWT_SECRET, '15m');
@@ -16,7 +16,7 @@ export const signRefreshToken = (payload: TokenPayload) => signToken(payload, en
 
 export const signPasswordResetToken = (payload: TokenPayload) => signToken(payload, env.JWT_SECRET, '1h');
 
-const verifyToken = (token: string, secret: string) => {
+const verifyToken = (token: string, secret: Secret) => {
   try {
     return jwt.verify(token, secret) as TokenPayload;
   } catch (error) {
