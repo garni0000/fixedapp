@@ -15,7 +15,7 @@
     "types": ["node"],
     "baseUrl": "."
   },
-  "include": ["src", "prisma", "vitest.setup.ts"],
+  "include": ["src/**/*"],
   "exclude": ["dist", "node_modules"]
 }
 
