@@ -39,7 +39,7 @@ export default function Payment() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-6xl mx-auto space-y-8">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-neon-cyan to-neon-green bg-clip-text text-transparent">
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-neon-orange to-neon-orange-dark bg-clip-text text-transparent">
           Abonnements VIP
         </h1>
 
@@ -48,7 +48,7 @@ export default function Payment() {
             <Card
               key={sub.type}
               className={`glass-card cursor-pointer transition-all ${
-                selectedPlan === sub.type ? 'neon-border glow-cyan' : ''
+                selectedPlan === sub.type ? 'neon-border glow-orange' : ''
               }`}
               onClick={() => setSelectedPlan(sub.type)}
             >
@@ -60,15 +60,15 @@ export default function Payment() {
               </CardHeader>
               <CardContent className="space-y-2">
                 <div className="flex items-center space-x-2 text-sm">
-                  <Check className="h-4 w-4 text-neon-green" />
+                  <Check className="h-4 w-4 text-neon-orange" />
                   <span>Accès tous les fixed VIP</span>
                 </div>
                 <div className="flex items-center space-x-2 text-sm">
-                  <Check className="h-4 w-4 text-neon-green" />
+                  <Check className="h-4 w-4 text-neon-orange" />
                   <span>Analyses complètes IA</span>
                 </div>
                 <div className="flex items-center space-x-2 text-sm">
-                  <Check className="h-4 w-4 text-neon-green" />
+                  <Check className="h-4 w-4 text-neon-orange" />
                   <span>Notifications temps réel</span>
                 </div>
               </CardContent>
@@ -129,7 +129,7 @@ export default function Payment() {
                     />
                   </div>
 
-                  <Button type="submit" className="w-full neon-border hover:glow-cyan">
+                  <Button type="submit" className="w-full neon-border hover:glow-orange">
                     Envoyer la demande
                   </Button>
                 </form>
@@ -175,7 +175,7 @@ export default function Payment() {
                     />
                   </div>
 
-                  <Button type="submit" className="w-full neon-border hover:glow-cyan">
+                  <Button type="submit" className="w-full neon-border hover:glow-orange">
                     Soumettre la preuve
                   </Button>
                 </form>

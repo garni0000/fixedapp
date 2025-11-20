@@ -17,35 +17,35 @@ All colors MUST be HSL.
     --popover: 222 47% 10%;
     --popover-foreground: 180 100% 90%;
 
-    --primary: 180 100% 50%;
+    --primary: 25 100% 50%;
     --primary-foreground: 222 47% 5%;
 
-    --secondary: 280 100% 60%;
+    --secondary: 30 100% 60%;
     --secondary-foreground: 222 47% 5%;
 
     --muted: 222 47% 15%;
-    --muted-foreground: 180 20% 60%;
+    --muted-foreground: 25 20% 60%;
 
-    --accent: 160 100% 45%;
+    --accent: 35 100% 55%;
     --accent-foreground: 222 47% 5%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 15 84% 60%;
     --destructive-foreground: 180 100% 90%;
 
     --border: 222 47% 20%;
     --input: 222 47% 15%;
-    --ring: 180 100% 50%;
+    --ring: 25 100% 50%;
 
     --radius: 0.75rem;
     
-    --neon-cyan: 180 100% 50%;
-    --neon-green: 160 100% 45%;
+    --neon-orange: 25 100% 50%;
+    --neon-orange-dark: 20 100% 45%;
     --neon-purple: 280 100% 60%;
     --vip-gold: 45 100% 55%;
-    
-    --glow-cyan: 0 0 20px hsl(var(--neon-cyan) / 0.5);
+
+    --glow-orange: 0 0 20px hsl(var(--neon-orange) / 0.5);
+    --glow-orange-dark: 0 0 15px hsl(var(--neon-orange-dark) / 0.4);
     --glow-gold: 0 0 20px hsl(var(--vip-gold) / 0.6);
-    --glow-green: 0 0 15px hsl(var(--neon-green) / 0.4);
 
     --sidebar-background: 0 0% 98%;
 
@@ -81,16 +81,16 @@ All colors MUST be HSL.
 }
 
 @layer utilities {
-  .glow-cyan {
-    box-shadow: var(--glow-cyan);
+  .glow-orange {
+    box-shadow: var(--glow-orange);
   }
-  
+
+  .glow-orange-dark {
+    box-shadow: var(--glow-orange-dark);
+  }
+
   .glow-gold {
     box-shadow: var(--glow-gold);
-  }
-  
-  .glow-green {
-    box-shadow: var(--glow-green);
   }
   
   .glass-card {

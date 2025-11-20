@@ -57,7 +57,7 @@ export default function Auth() {
       
       <Card className="glass-card w-full max-w-md relative z-10">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-neon-cyan to-neon-green bg-clip-text text-transparent">
+          <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-neon-orange to-neon-orange-dark bg-clip-text text-transparent">
             FixedMatch
           </CardTitle>
           <CardDescription className="text-center">
@@ -105,7 +105,7 @@ export default function Auth() {
                 </Button>
                 <Button
                   type="submit"
-                  className="w-full neon-border hover:glow-cyan"
+                  className="w-full neon-border hover:glow-orange"
                   disabled={loading}
                 >
                   {loading ? 'Connexion...' : 'Se connecter'}
@@ -139,7 +139,7 @@ export default function Auth() {
                 </div>
                 <Button
                   type="submit"
-                  className="w-full neon-border hover:glow-cyan"
+                  className="w-full neon-border hover:glow-orange"
                   disabled={loading}
                 >
                   {loading ? 'Création...' : 'Créer un compte'}

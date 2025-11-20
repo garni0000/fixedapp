@@ -251,7 +251,7 @@ export default function Admin() {
       <div className="space-y-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-neon-cyan to-neon-green bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-neon-orange to-neon-orange-dark bg-clip-text text-transparent">
               Panneau d’administration
             </h1>
             <p className="text-muted-foreground">Gérez vos pronostics, abonnements et utilisateurs.</p>

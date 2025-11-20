@@ -35,7 +35,7 @@ export default function History() {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'win':
-        return <CheckCircle className="h-5 w-5 text-neon-green" />;
+        return <CheckCircle className="h-5 w-5 text-neon-orange" />;
       case 'lose':
         return <XCircle className="h-5 w-5 text-destructive" />;
       case 'pending':
@@ -47,7 +47,7 @@ export default function History() {
 
   const getStatusBadge = (status: string) => {
     const variants = {
-      win: 'bg-neon-green/20 text-neon-green border-neon-green/30',
+      win: 'bg-neon-orange/20 text-neon-orange border-neon-orange/30',
       lose: 'bg-destructive/20 text-destructive border-destructive/30',
       pending: 'bg-muted text-muted-foreground border-muted',
     };
@@ -58,7 +58,7 @@ export default function History() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="space-y-8">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-neon-cyan to-neon-green bg-clip-text text-transparent">
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-neon-orange to-neon-orange-dark bg-clip-text text-transparent">
           Historique des Fixed
         </h1>
 

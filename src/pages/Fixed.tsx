@@ -20,7 +20,7 @@ export default function Fixed() {
     <div className="container mx-auto px-4 py-8">
       <div className="space-y-8">
         <div className="space-y-4">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-neon-cyan to-neon-green bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-neon-orange to-neon-orange-dark bg-clip-text text-transparent">
             Fixed du Jour
           </h1>
           

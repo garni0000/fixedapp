@@ -21,7 +21,7 @@ export default function Profile() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto space-y-8">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-neon-cyan to-neon-green bg-clip-text text-transparent">
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-neon-orange to-neon-orange-dark bg-clip-text text-transparent">
           Mon Profile
         </h1>
 
@@ -72,7 +72,7 @@ export default function Profile() {
                 )}
               </div>
               <Button
-                className="w-full neon-border hover:glow-cyan"
+                className="w-full neon-border hover:glow-orange"
                 onClick={() => navigate('/payment')}
               >
                 {user?.isVIP ? 'Prolonger' : 'Devenir VIP'}

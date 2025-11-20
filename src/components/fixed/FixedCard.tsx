@@ -16,8 +16,8 @@ export const FixedCard = ({ fixed, userIsVIP }: FixedCardProps) => {
   const canViewAnalysis = !fixed.isVIP || userIsVIP;
 
   const getConfidenceColor = (confidence: number) => {
-    if (confidence >= 90) return 'text-neon-green';
-    if (confidence >= 80) return 'text-neon-cyan';
+    if (confidence >= 90) return 'text-neon-orange';
+    if (confidence >= 80) return 'text-neon-orange-dark';
     return 'text-muted-foreground';
   };
 
@@ -60,7 +60,7 @@ export const FixedCard = ({ fixed, userIsVIP }: FixedCardProps) => {
           {canViewAnalysis ? (
             <Button
               onClick={() => setShowModal(true)}
-              className="w-full neon-border hover:glow-cyan"
+              className="w-full neon-border hover:glow-orange"
             >
               Voir l'analyse complète
             </Button>

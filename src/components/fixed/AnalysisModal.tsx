@@ -19,7 +19,7 @@ export const AnalysisModal = ({ open, onClose, fixed }: AnalysisModalProps) => {
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="glass-card max-w-2xl">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-neon-cyan to-neon-green bg-clip-text text-transparent">
+          <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-neon-orange to-neon-orange-dark bg-clip-text text-transparent">
             Analyse Complète
           </DialogTitle>
         </DialogHeader>
@@ -33,7 +33,7 @@ export const AnalysisModal = ({ open, onClose, fixed }: AnalysisModalProps) => {
               <Badge variant="outline" className="neon-border">
                 {fixed.market}
               </Badge>
-              <div className="flex items-center space-x-2 text-neon-green">
+              <div className="flex items-center space-x-2 text-neon-orange">
                 <TrendingUp className="h-4 w-4" />
                 <span className="font-bold">{fixed.confidence}%</span>
               </div>
